@@ -424,22 +424,32 @@ SockAddr::SockAddr(const byte* in6)
         set_family(AF_INET);
 }
 
-SockAddr::SockAddr(const SOCKADDR_STORAGE& sa)
+void SockAddr::from_sockaddr(const sockaddr* sa)
 {
-	set_family(sa.ss_family);
-	if (sa.ss_family == AF_INET) {
-		const sockaddr_in& sin = (sockaddr_in&)sa;
+	set_family(sa->sa_family);
+	if (sa->sa_family == AF_INET) {
+		const sockaddr_in* sin = (sockaddr_in*)sa;
 		_sin6d[0] = 0;
 		_sin6d[1] = 0;
 		_sin6w[4] = 0;
 		_sin6w[5] = 0xffff;
-		_sin4 = sin.sin_addr.s_addr;
-		_port = ntohs(sin.sin_port);
+		_sin4 = sin->sin_addr.s_addr;
+		_port = ntohs(sin->sin_port);
 	} else {
-		const sockaddr_in6& sin6 = (sockaddr_in6&)sa;
-		_port = ntohs(sin6.sin6_port);
-		_in._in6addr = sin6.sin6_addr;
+		const sockaddr_in6* sin6 = (sockaddr_in6*)sa;
+		_port = ntohs(sin6->sin6_port);
+		_in._in6addr = sin6->sin6_addr;
 	}
+}
+
+SockAddr::SockAddr(const sockaddr& sa)
+{
+    from_sockaddr((const sockaddr *)&sa);
+}
+
+SockAddr::SockAddr(const sockaddr* sa)
+{
+    from_sockaddr(sa);
 }
 
 SockAddr SockAddr::parse_addr(cstr addrspec, bool* valid)

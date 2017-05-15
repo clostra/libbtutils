@@ -204,6 +204,8 @@ struct SockAddr {
 	// takes size of compact format
 	bool from_compact(const byte* p, size_t len);
 
+	void from_sockaddr(const sockaddr* sa);
+
 	std::string get_arpa() const;
 
 	// Weak equality (a mapped v4 address will equal a v4 addr)
@@ -237,8 +239,9 @@ struct SockAddr {
 	// this is used for packed unaligned structs containing in6_addr, where in6_addr access on non-x86 can crash
 	SockAddr(const byte* in6);
 
-	// Construct from SOCKADDR_STORAGE
-	SockAddr(const SOCKADDR_STORAGE& sa);
+	// Construct from sockaddr
+	SockAddr(const sockaddr& sa);
+	SockAddr(const sockaddr* sa);
 
 	// Construct from "compact" allocation
 	SockAddr(const byte* p, size_t len, bool* success);
