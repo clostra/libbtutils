@@ -276,7 +276,7 @@ TEST(SockAddr, TestStorage)
 	EXPECT_TRUE(sain.sin_family == AF_INET);
 
 	// Construct a SockAddr from the SOCKADDR_STORAGE to test that constructor
-	SockAddr sa_ss(sa);
+	SockAddr sa_ss((struct sockaddr*)&sa);
 	EXPECT_TRUE(TEST_PORT == sa_ss.get_port());
 	EXPECT_TRUE(test_ip_a == sa_ss.get_addr4());
 	EXPECT_TRUE(!sa_ss.is_loopback());
