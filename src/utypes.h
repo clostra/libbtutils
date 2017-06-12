@@ -37,7 +37,9 @@ typedef uint64 ULONGLONG;
 #endif
 
 #ifdef ANDROID
+#ifndef INT64_MAX
 #define INT64_MAX 0x7fffffffffffffffLL
+#endif
 #endif
 
 #if __cplusplus > 199711L
