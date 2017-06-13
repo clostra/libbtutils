@@ -103,7 +103,9 @@ inline void *InterlockedCompareExchangePointer(void **ptr, void *newvalue, void 
 
 #elif defined __GNUC__ || defined POSIX
 
+#ifdef __GLIBC__
 #include <ext/atomicity.h>
+#endif
 
 // GCC 4.3 (and before) define macro _GLIBCXX_ATOMIC_BUILTINS
 // GCC 4.4 and after define macros _GLIBCXX_ATOMIC_BUILTINS_[1|2|4|8] and don't define _GLIBCXX_ATOMIC_BUILTINS
