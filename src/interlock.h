@@ -103,7 +103,7 @@ inline void *InterlockedCompareExchangePointer(void **ptr, void *newvalue, void 
 
 #elif defined __GNUC__ || defined POSIX
 
-#ifdef __GLIBC__
+#ifdef __GLIBCXX__
 #include <ext/atomicity.h>
 #endif
 
